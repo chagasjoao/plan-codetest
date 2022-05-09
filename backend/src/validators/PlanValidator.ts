@@ -12,3 +12,7 @@ export const PlanPostSchema = yup.object({
   price: yup.number().positive().required('Price is required'),
   features: yup.string(),
 });
+
+export const PlanDeleteSchema = yup.object({
+  id: yup.string().uuid().required(),
+});

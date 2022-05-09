@@ -7,7 +7,11 @@ import UpdatePlanService from '../services/UpdatePlanService';
 import DeletePlanService from '../services/DeletePlanService';
 
 import validateResourceMiddleware from '../middlewares/validateResource';
-import { PlanPatchSchema, PlanPostSchema } from '../validators/PlanValidator';
+import {
+  PlanPatchSchema,
+  PlanPostSchema,
+  PlanDeleteSchema,
+} from '../validators/PlanValidator';
 
 const plansRouter = Router();
 
@@ -63,20 +67,24 @@ plansRouter.patch(
   },
 );
 
-plansRouter.delete('/', async (request, response) => {
-  try {
-    const { id } = request.body;
+plansRouter.delete(
+  '/',
+  validateResourceMiddleware(PlanDeleteSchema),
+  async (request, response) => {
+    try {
+      const { id } = request.body;
 
-    const deletePlan = new DeletePlanService();
+      const deletePlan = new DeletePlanService();
 
-    await deletePlan.execute({
-      id,
-    });
+      await deletePlan.execute({
+        id,
+      });
 
-    return response.json('Deleted');
-  } catch (err: any) {
-    return response.status(400).json({ error: err.message });
-  }
-});
+      return response.json('Deleted');
+    } catch (err: any) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+);
 
 export default plansRouter;
