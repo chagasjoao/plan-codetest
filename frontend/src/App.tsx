@@ -1,7 +1,19 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import GlobalStyle from "./styles/global";
+import "react-toastify/dist/ReactToastify.css";
 
-function App() {
-  return <h1>Frontend</h1>
-}
+import Routes from "./routes";
+
+const App: React.FC = () => (
+  <>
+    <ToastContainer />
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+    <GlobalStyle />
+  </>
+);
 
 export default App;
