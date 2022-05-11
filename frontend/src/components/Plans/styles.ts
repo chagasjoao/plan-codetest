@@ -1,7 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { shade } from "polished";
+import React from "react";
 
-export const CardContainer = styled.div`
+type HighlightedCard = React.HTMLAttributes<HTMLDivElement> & {
+  highlightedCard: React.ReactNode;
+};
+
+export const CardContainer = styled.div<HighlightedCard>`
   padding: 20px;
   height: 100%;
   min-height: 400px;
@@ -10,6 +15,13 @@ export const CardContainer = styled.div`
   border-radius: 10px;
 
   display: grid;
+
+  ${(props) =>
+    props.highlightedCard &&
+    css`
+      border: 4px solid #3c1361;
+      background: #b491cb;
+    `}
 `;
 
 export const TitleWrapper = styled.div`

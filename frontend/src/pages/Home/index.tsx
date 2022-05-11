@@ -11,6 +11,7 @@ import {
 } from "./styles";
 
 import PlanCard from "../../components/Plans";
+import { usePlan } from "../../hooks/usePlan";
 
 interface Plan {
   id: string;
@@ -20,16 +21,8 @@ interface Plan {
 }
 
 export function Home() {
-  const [plans, setPlans] = useState<Plan[]>();
-  const [discountAmount, setDiscountAmount] = useState<number>(0);
-  const [discount, setDiscount] = useState(false);
-
-  useEffect(() => {
-    api.get<Plan[]>("/plans").then((response) => setPlans(response.data));
-    api
-      .get("/discount")
-      .then((response) => setDiscountAmount(response.data[0].discount));
-  }, []);
+  const { plans, discount } = usePlan();
+  const [isAnually, setIsAnually] = useState(false);
 
   return (
     <>
@@ -42,23 +35,23 @@ export function Home() {
       <DiscountContainer>
         <Text>Monthly</Text>
         <SwitchButton
-          checked={discount}
-          onChange={() => setDiscount(!discount)}
+          checked={isAnually}
+          onChange={() => setIsAnually(!isAnually)}
         />
         <DiscountTextContainer>
           <Text>Anually</Text>
-          <DiscountText>{discountAmount}% discount</DiscountText>
+          <DiscountText>{discount}% discount</DiscountText>
         </DiscountTextContainer>
       </DiscountContainer>
 
       <PlansContainer>
         {plans &&
-          plans.map((plan) => (
+          plans.map((plan, key) => (
             <PlanCard
               key={plan.id}
+              highlighted={key === 1}
               planData={plan}
-              hasAnuallyDiscount={discount}
-              anuallyDiscountAmount={discountAmount}
+              hasAnuallyDiscount={isAnually}
             />
           ))}
       </PlansContainer>

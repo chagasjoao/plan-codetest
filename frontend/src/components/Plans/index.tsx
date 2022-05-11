@@ -1,4 +1,5 @@
 import React from "react";
+import { usePlan } from "../../hooks/usePlan";
 import {
   CardContainer,
   TitleWrapper,
@@ -19,14 +20,15 @@ interface Plan {
 interface PlanProps {
   planData: Plan;
   hasAnuallyDiscount: boolean;
-  anuallyDiscountAmount: number;
+  highlighted: boolean;
 }
 
 export function Plans({
   planData,
   hasAnuallyDiscount,
-  anuallyDiscountAmount,
+  highlighted,
 }: PlanProps) {
+  const { discount } = usePlan();
   const { name, price, features } = planData;
   const arrayFeatures = features.split(",");
 
@@ -34,11 +36,11 @@ export function Plans({
   const totalAnuallyPrice = (priceWithCents * 12).toFixed(2);
   const anuallyPriceWithDiscount = (
     Number(totalAnuallyPrice) -
-    (priceWithCents * 12 * anuallyDiscountAmount) / 100
+    (priceWithCents * 12 * discount!) / 100
   ).toFixed(2);
 
   return (
-    <CardContainer>
+    <CardContainer highlightedCard={highlighted}>
       <TitleWrapper>
         <Title>{name}</Title>
 
