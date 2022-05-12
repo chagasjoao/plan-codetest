@@ -1,4 +1,4 @@
-# Installing
+# About the project
 
 This project was made for a codetest to Monest
 
