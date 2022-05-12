@@ -3,7 +3,7 @@
 This project was made for a codetest to Monest
 
 ## Installing
-1) Create a docker with posgres
+1) Create a docker with postgres
 
 ```shell
  docker run --name "CONTAINER_IMAGE_NAME" -e POSTGRES_PASSWORD="POSTGRES_PASSWORD" -p "CHOOSE A PORT":5432 -d postgres
