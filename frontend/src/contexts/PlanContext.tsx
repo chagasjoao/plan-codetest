@@ -20,7 +20,7 @@ type PlanContextType = {
   discount: number | undefined;
   addPlan: () => void;
   deletePlan: (planId: string) => void;
-  updatePlan: (planDataToUpdate: Plan) => void;
+  updatePlan: (planDataToUpdate: Plan) => Promise<boolean>;
   updateDiscount: (newDiscount: { discount: number }) => void;
 };
 
@@ -42,13 +42,20 @@ export function PlanContextProvider(props: PlanContextProviderProps) {
       .then((response) => setDiscountAmount(response.data[0].discount));
   }, []);
 
-  function updatePlan(planDataToUpdate: Plan) {
-    console.log(planDataToUpdate.price);
+  async function updatePlan(planDataToUpdate: Plan) {
+    const response = api
+      .patch("/plans", planDataToUpdate)
+      .then(() => {
+        const indexToUpdate = plans!.findIndex(
+          (p) => p.id === planDataToUpdate.id
+        );
+        plans![indexToUpdate] = planDataToUpdate;
+        setPlans([...plans!]);
+        return true;
+      })
+      .catch(() => false);
 
-    const indexToUpdate = plans!.findIndex((p) => p.id === planDataToUpdate.id);
-    plans![indexToUpdate] = planDataToUpdate;
-
-    api.patch("/plans", planDataToUpdate).then(() => setPlans([...plans!]));
+    return response;
   }
 
   function deletePlan(planId: string) {

@@ -12,13 +12,6 @@ import {
 import EditablePlanCard from "../../components/EditablePlan";
 import FormDiscount from "../../components/FormDiscount";
 
-interface Plan {
-  id: string;
-  name: string;
-  price: number;
-  features: string;
-}
-
 export function Home() {
   const { plans, addPlan } = usePlan();
 

@@ -73,6 +73,7 @@ export function EditablePlans({ planData }: PlanProps) {
 
   function deletePlanFeature(index: number) {
     setArrayWithFeatures((prev) => prev.filter((p, i) => i !== index));
+    setForceRenderAgain(!renderAgain);
   }
 
   function handleDeletePlan(planId: string) {
@@ -157,6 +158,8 @@ export function EditablePlans({ planData }: PlanProps) {
     );
   }, [renderAgain]);
 
+  const initialPrice = price / 100;
+
   return (
     <>
       <IconWrapper>
@@ -172,25 +175,37 @@ export function EditablePlans({ planData }: PlanProps) {
         {isEditing ? (
           <Formik
             enableReinitialize
-            initialValues={{ name, price }}
-            onSubmit={(values, { setSubmitting }) => {
+            initialValues={{ name, initialPrice }}
+            onSubmit={async (values, { setSubmitting }) => {
               const nameToUpdate = values.name;
-              const priceToUpdate = values.price
+              const sanitizePrice = values.initialPrice
                 .toString()
-                .replace(/[^0-9]/g, "");
+                .replace(/,/g, ".")
+                .replace(/\.(?=.*\.)/g, "");
+              const priceWithCents = Number(sanitizePrice).toFixed(2);
+              const priceToUpdate = Number(priceWithCents) * 100;
+
               const featureToUpdate = arrayWithFeatures.toString();
 
               const updatePlanData = {
                 id,
                 name: nameToUpdate,
-                price: Number(priceToUpdate),
+                price: priceToUpdate,
                 features: featureToUpdate,
               };
 
-              updatePlan(updatePlanData);
+              const response = await updatePlan(updatePlanData);
 
-              toast("Discount edited successfully!", {
-                type: "info",
+              if (!response) {
+                toast("Something went wrong", {
+                  type: "error",
+                });
+
+                return;
+              }
+
+              toast("Plan edited successfully", {
+                type: "success",
               });
 
               setIsEditing(!isEditing);
@@ -212,9 +227,9 @@ export function EditablePlans({ planData }: PlanProps) {
                     type="text"
                     id="price"
                     placeholder="R$ 10.00"
-                    value={values.price}
+                    value={values.initialPrice}
                     onChange={(e) => {
-                      setFieldValue("price", e.target.value);
+                      setFieldValue("initialPrice", e.target.value);
                     }}
                   />
                 </TitleWrapper>
