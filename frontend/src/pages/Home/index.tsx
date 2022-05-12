@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
 import {
   Header,
@@ -13,13 +14,6 @@ import {
 import PlanCard from "../../components/Plans";
 import { usePlan } from "../../hooks/usePlan";
 
-interface Plan {
-  id: string;
-  name: string;
-  price: number;
-  features: string;
-}
-
 export function Home() {
   const { plans, discount } = usePlan();
   const [isAnually, setIsAnually] = useState(false);
@@ -30,6 +24,8 @@ export function Home() {
         <h2>Pricing</h2>
 
         <h1>Try it now for Free</h1>
+
+        <Link to="/admin">Admin page</Link>
       </Header>
 
       <DiscountContainer>

@@ -9,7 +9,7 @@ This project was made for a codetest to Monest
  docker run --name "CONTAINER_IMAGE_NAME" -e POSTGRES_PASSWORD="POSTGRES_PASSWORD" -p "CHOOSE A PORT":5432 -d postgres
 ```
 
-2) Change ormconfig.json
+2) Enter on backend directory and change ormconfig.json
 
 ```shell
  "type": "postgres",
@@ -29,18 +29,28 @@ This project was made for a codetest to Monest
   }
 ```
 
-3) Enter on backend directory and install modules
+2.1) Install modules
 
 ```shell
  yarn
 ```
 
-3.1) Run migrations
+2.2) Run migrations
 ```shell
  yarn typeorm migration:run
 ```
 
-4) Enter on frontend directory and install modules
+2.3) Start the server (you can change the port in src/server.ts)
+```shell
+ yarn dev:server
+```
+
+3) Enter on frontend directory and install modules
 ```shell
  yarn
+```
+
+3.1) Start the frontend server
+```shell
+ yarn start
 ```

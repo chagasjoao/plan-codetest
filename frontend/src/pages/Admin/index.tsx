@@ -1,5 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import { usePlan } from "../../hooks/usePlan";
 
 import {
@@ -36,6 +37,8 @@ export function Home() {
         <h2>Admin</h2>
 
         <h1>Editing page</h1>
+
+        <Link to="/">Plan page</Link>
       </Header>
 
       <DiscountContainer>

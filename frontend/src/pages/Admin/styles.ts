@@ -18,6 +18,12 @@ export const AddWrapper = styled.div`
 export const Header = styled.div`
   width: 960px;
   margin: auto;
+
+  a {
+    color: #000;
+    font-size: 16px;
+  }
+
   h2 {
     color: #808080;
     font-family: "Dancing Script", cursive;
@@ -25,6 +31,7 @@ export const Header = styled.div`
 
   h1 {
     margin-top: 20px;
+    margin: 20px 0px;
     font-family: "Dancing Script", cursive;
   }
 `;
